@@ -1,0 +1,8 @@
+pipeline:
+    # build docker image
+    # send image to dockerhub
+    # apply update to k8s cluster
+- httpserver:
+    image:
+    commands:
+    
