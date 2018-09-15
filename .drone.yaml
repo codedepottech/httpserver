@@ -2,7 +2,15 @@ pipeline:
     # build docker image
     # send image to dockerhub
     # apply update to k8s cluster
-- httpserver:
-    image:
-    commands:
-    
+    docker:
+        image: plugins/docker
+        secrets: [ docker_username, docker_password ]
+        repo: codedepot/httpserver
+        tags: 
+            - latest
+    helm_deploy:
+        image: codedepot/httpserver
+        skip_tls_verify: true
+        chart: ./charts/httpserver
+        release: ${DRONE_BRANCH}
+        secrets: [helm_deploy_api_server, helm_deploy_kubernetes_token]``

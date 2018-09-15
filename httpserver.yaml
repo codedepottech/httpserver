@@ -1,0 +1,34 @@
+##################################################################################################
+# httpbin service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpserver
+  labels:
+    app: httpserver
+spec:
+  ports:
+  - name: http
+    port: 8000
+  selector:
+    app: httpserver
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: httpserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: httpserver
+        version: v1
+    spec:
+      containers:
+      - image: codedepot/httpserver
+        imagePullPolicy: IfNotPresent
+        name: httpserver
+        ports:
+        - containerPort: 8000
