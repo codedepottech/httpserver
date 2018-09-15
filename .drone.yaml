@@ -4,13 +4,21 @@ pipeline:
     # apply update to k8s cluster
     docker:
         image: plugins/docker
+        prefix: DOCKER
         secrets: [ docker_username, docker_password ]
         repo: codedepot/httpserver
         tags: 
             - latest
+        when: 
+            branch: [master]
     helm_deploy:
         image: codedepot/httpserver
         skip_tls_verify: true
         chart: ./charts/httpserver
         release: ${DRONE_BRANCH}
-        secrets: [helm_deploy_api_server, helm_deploy_kubernetes_token]``
+        prefix: HELM
+        secrets: [helm_api_server, helm_kubernetes_token]
+        update_dependencies: true
+        when:
+            branch: [master]
+        dry-run: true
