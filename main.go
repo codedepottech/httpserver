@@ -1,11 +1,10 @@
 package main
 
 import (
-	_ "github.com/codedepottech/httpserver/routers"
+	_ "./routers"
 	"github.com/astaxie/beego"
 )
 
 func main() {
 	beego.Run()
 }
-

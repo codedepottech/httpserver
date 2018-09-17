@@ -20,13 +20,33 @@ spec:
         app: {{ include "httpserver.name" . }}
         release: {{ .Release.Name }}
     spec:
+      volumes:
+        - name: httpserver-conf
+          persistentVolumeClaim:
+            claim: httpserver-conf
+        - name: httpserver-views
+          persistentVolumeClaim:
+            claim: httpserver-views
+        - name: httpserver-static
+          persistentVolumeClaim:
+            claim: httpserver-static
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              cpu: "100m"
+          volumeMounts:
+            - mountPath: "/go/src/conf"
+              name: httpserver-conf
+            - mountPath: "/go/src/views"
+              name: httpserver-views
+            - mountPath: "/go/src/static"
+              name: httpserver-static
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:

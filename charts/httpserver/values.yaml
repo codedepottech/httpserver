@@ -15,7 +15,28 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8080
+
+
+pvc:
+  static: 
+    name: httpserver-static
+    namespace:
+    accessModes: ReadWriteOnce
+    storage: 5Gi
+    storageClassName: gce-retained
+  views:
+    name: httpserver-views
+    namespace:
+    accessModes: ReadWriteOnce
+    storage: 5Gi
+    storageClassName: gce-retained
+  conf:
+    name: httpserver-conf
+    namespace:
+    accessModes: ReadWriteOnce
+    storage: 5Gi
+    storageClassName: gce-retained
 
 
 
